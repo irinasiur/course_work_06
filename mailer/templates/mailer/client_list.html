@@ -1,0 +1,43 @@
+{% extends "mailer/base.html" %}
+
+{% block title %}
+    Список клиентов
+{% endblock %}
+
+{% block text %}
+    Ниже представлен список наших замечательных клиентов.
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Клиенты:</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>ФИО</th>
+                            <th>Комментарий</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td>{{ client.id }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.full_name }}</td>
+                                <td>{{ client.comment }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">На данный момент нет клиентов.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
