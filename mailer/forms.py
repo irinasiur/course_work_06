@@ -1,4 +1,4 @@
-from mailer.models import Client, Mailing, Message
+from mailer.models import Client, Mailing, Message, MailingLog
 from django import forms
 
 
@@ -12,16 +12,25 @@ class StyleFormMixin:
 class ClientForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Client
-        fields = ['email', 'full_name', 'comment']
+        fields = ('full_name', 'email')
 
 
 class MailingForm(StyleFormMixin, forms.ModelForm):
+
     class Meta:
         model = Mailing
-        fields = ['start_time', 'periodicity', 'status']
+        fields = ['start_time', 'periodicity']
 
 
 class MessageForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['subject', 'body']
+        fields = ('mailing', 'subject', 'body')
+
+
+class MailingLogForm(StyleFormMixin, forms.ModelForm):
+
+    class Meta:
+        model = MailingLog
+        fields = ('message', 'client', 'status', 'response')
+

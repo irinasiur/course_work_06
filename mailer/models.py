@@ -2,11 +2,13 @@ from django.db import models
 
 from django.db import models
 
+NULLABLE = {'blank': True, 'null': True}
+
 
 class Client(models.Model):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
-    comment = models.TextField(blank=True, null=True)
+    comment = models.TextField(**NULLABLE)
 
 
 class Mailing(models.Model):
@@ -29,7 +31,7 @@ class Mailing(models.Model):
 
 
 class Message(models.Model):
-    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, **NULLABLE)
     subject = models.CharField(max_length=255)
     body = models.TextField()
 
@@ -44,5 +46,5 @@ class MailingLog(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     attempt_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-    response = models.TextField(blank=True, null=True)
+    response = models.TextField(**NULLABLE)
 

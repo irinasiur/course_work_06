@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "mailer/base.html" %}
 
-</body>
-</html>
+{% block content %}
+<div class="container mt-9">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Форма отправки</div>
+                <div class="card-body">
+
+<!-- Форма для Client -->
+<form method="post" action="{% url 'mailer:create_client' %}">
+    {% csrf_token %}
+    <h4>Добавить нового клиента</h4>
+    <div class="form-group">
+        <label for="{{ client_form.full_name.id_for_label }}">ФИО</label>
+        {{ client_form.full_name }}
+    </div>
+    <div class="form-group">
+        <label for="{{ client_form.email.id_for_label }}">Email</label>
+        {{ client_form.email }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<hr>
+
+<!-- Форма для Message -->
+<form method="post" action="{% url 'mailer:message_add' %}">
+    {% csrf_token %}
+    <h4>Добавить новое сообщение</h4>
+    <div class="form-group">
+        <label for="{{ message_form.subject.id_for_label }}">Заголовок сообщения</label>
+        {{ message_form.subject }}
+    </div>
+    <div class="form-group">
+        <label for="{{ message_form.body.id_for_label }}">Текст сообщения</label>
+        {{ message_form.body }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

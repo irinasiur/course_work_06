@@ -1,7 +1,10 @@
 <div class="col-sm-4 offset-md-1 py-4">
     <h4 class="text-white">Главная</h4>
     <ul class="list-unstyled">
-        <li><a href="{% url 'mailer:index' %}" class="text-white">Администрирование</a></li>
+        <li><a href="{% url 'mailer:index' %}" class="text-white">Получатели ваших писем</a></li>
+        <li><a href="{% url 'mailer:list_message' %}" class="text-white">Ваши письма</a></li>
+        <li><a href="{% url 'mailer:create_mailing' %}" class="text-white">Ваша рассылка</a></li>
+        <li><a href="{% url 'mailer:create_mailinglog' %}" class="text-white">Создать рассылку</a></li>
         <li><a href="{% url 'mailer:index' %}" class="text-white">Статистика</a></li>
 
         {% if user.is_authenticated %}

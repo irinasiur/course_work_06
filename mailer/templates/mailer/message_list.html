@@ -1,0 +1,54 @@
+{% extends "mailer/base.html" %}
+
+{% block title %}
+    Список писем
+{% endblock %}
+
+{% block text %}
+    Ниже представлен список наших замечательных писем.
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Письма:</h2>
+                 <a href="{% url 'mailer:create_message' %}" class="btn btn-outline-primary">Создать новое письмо</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Тема письма</th>
+                            <th>Текст письма</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in messages %}
+                            <tr>
+                                <td>{{ message.id }}</td>
+                                <td>{{ message.subject }}</td>
+                                <td>{{ message.body }}</td>
+                                <td>
+                                     <a href="{% url 'mailer:update_message' message.pk %}" type="button" class="btn btn-primary">Update</a>
+                                 <a href="{% url 'mailer:delete_message' message.pk %}" type="button" class="btn btn-danger">Delete</a>
+                            </tr>
+
+
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">На данный момент нет писем.</td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                  <div class="btn-group">
+
+
+
+                        </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

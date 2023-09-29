@@ -13,6 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Клиенты:</h2>
+                 <a href="{% url 'mailer:create_client' %}" class="btn btn-outline-primary">Добавить нового клиента</a>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -29,14 +30,25 @@
                                 <td>{{ client.email }}</td>
                                 <td>{{ client.full_name }}</td>
                                 <td>{{ client.comment }}</td>
+                                <td>
+                                     <a href="{% url 'mailer:update_client' client.pk %}" type="button" class="btn btn-primary">Update</a>
+                                 <a href="{% url 'mailer:delete_client' client.pk %}" type="button" class="btn btn-danger">Delete</a>
                             </tr>
+
+
                         {% empty %}
                             <tr>
                                 <td colspan="4" class="text-center">На данный момент нет клиентов.</td>
                             </tr>
                         {% endfor %}
+
                     </tbody>
                 </table>
+                  <div class="btn-group">
+
+
+
+                        </div>
             </div>
         </div>
     </div>
