@@ -116,11 +116,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False # True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -164,9 +164,47 @@ if CACHE_ENABLED:
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+
+DAILY = timedelta(days=1)
+WEEKLY = timedelta(weeks=1)
+MONTHLY = timedelta(days=30)  # Предполагая, что месяц имеет 30 дней
+
 CELERY_BEAT_SCHEDULE = {
-    'send_messages_every_day': {
-        'task': 'your_app_name.tasks.send_messages',
-        'schedule': timedelta(days=1),  # Вы можете изменить периодичность
+    'send_messages_daily': {
+        'task': 'mailer.tasks.send_messages',
+        'schedule': DAILY,
+    },
+    'send_messages_weekly': {
+        'task': 'mailer.tasks.send_messages',
+        'schedule': WEEKLY,
+    },
+    'send_messages_monthly': {
+        'task': 'mailer.tasks.send_messages',
+        'schedule': MONTHLY,
+    },
+    'check_and_send_messages': {
+        'task': 'mailer.tasks.send_messages',
+        'schedule': timedelta(minutes=1),
+    },
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'mailer': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
     },
 }

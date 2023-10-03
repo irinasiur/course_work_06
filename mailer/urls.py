@@ -3,7 +3,9 @@ from django.urls import path
 from mailer.apps import MailerConfig
 from mailer.views import ClientListView, ClientDetailView, ClientCreateView, ClientUpdateView, ClientDeleteView, \
     MailingListView, MailingDetailView, MailingCreateView, MailingUpdateView, MailingDeleteView, MessageListView, \
-    MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingLogCreateView, CombinedListView
+    MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingLogCreateView, CombinedListView, \
+    CombinedUpdateView, CombinedCreateView, CombinedDeleteView, MailingLogListView
+from user.views import generate_new_password
 
 app_name = MailerConfig.name
 
@@ -14,11 +16,11 @@ urlpatterns = [
     path('client/<int:pk>/update/', ClientUpdateView.as_view(), name='update_client'),
     path('client/<int:pk>/delete/', ClientDeleteView.as_view(), name='delete_client'),
 
-    path('mailing/', MailingListView.as_view(), name='mailer_forms'),
-    path('mailing/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
-    path('mailing/create/', MailingCreateView.as_view(), name='create_mailing'),
-    path('mailing/<int:pk>/edit/', MailingUpdateView.as_view(), name='mailing_edit'),
-    path('mailing/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing_delete'),
+    # path('mailing/', MailingListView.as_view(), name='mailer_forms'),
+    # path('mailing/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
+    # path('mailing/create/', MailingCreateView.as_view(), name='create_mailing'),
+    # path('mailing/<int:pk>/edit/', MailingUpdateView.as_view(), name='update_mailing'),
+    # path('mailing/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing_delete'),
 
     path('message/', MessageListView.as_view(), name='list_message'),
     path('message/<int:pk>/', MessageDetailView.as_view(), name='detail_message'),
@@ -26,7 +28,13 @@ urlpatterns = [
     path('message/<int:pk>/edit/', MessageUpdateView.as_view(), name='update_message'),
     path('message/<int:pk>/delete/', MessageDeleteView.as_view(), name='delete_message'),
 
+    path('mailinglog/', MailingLogListView.as_view(), name='list_mailinglog'),
     path('mailinglog/create/', MailingLogCreateView.as_view(), name='create_mailinglog'),
-    path('combined/', CombinedListView.as_view(), name='list_combined'),
 
+    path('combined/', CombinedListView.as_view(), name='list_mailing'),
+    path('combined/create/', CombinedCreateView.as_view(), name='create_combined'),
+    path('combined/delete/<int:client_id>/<int:mailing_id>/<int:message_id>/', CombinedDeleteView.as_view(), name='delete_combined'),
+    path('combined/update/<int:client_id>/<int:mailing_id>/<int:message_id>/', CombinedUpdateView.as_view(), name='update_combined'),
+
+    path('profile/genpassword', generate_new_password, name='generate_new_password'),
 ]

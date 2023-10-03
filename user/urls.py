@@ -14,4 +14,5 @@ urlpatterns = [
     path('profile/', UserUpdateView.as_view(), name='profile'),
     path('profile/genpassword', generate_new_password, name='generate_new_password'),
 
+
 ]

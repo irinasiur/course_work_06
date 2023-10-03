@@ -1,0 +1,73 @@
+{% extends "mailer/base.html" %}
+
+{% block title %}
+    Список рассылок
+{% endblock %}
+
+{% block text %}
+    Ниже представлен список наших замечательных рассылок.
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Рассылки:</h2>
+                <a href="{% url 'mailer:create_combined' %}" class="btn btn-outline-primary">Добавить новую рассылку</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>ФИО</th>
+                            <th>Время старта рассылки</th>
+                            <th>Периодичность рассылки</th>
+                            <th>Тема письма</th>
+                            <th>Ваше письмо</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    {% for client in clients %}
+        {% with mailing=client.mailing_set.first %}
+        <tr>
+            <td>{{ client.id }}</td>
+            <td>{{ client.email }}</td>
+            <td>{{ client.full_name }}</td>
+            <td>{{ mailing.start_time|default:"N/A" }}</td>
+            <td>{{ mailing.periodicity|default:"N/A" }}</td>
+            {% if mailing %}
+                {% with message=mailing.message_set.first %}
+                    <td>{{ message.subject|default:"N/A" }}</td>
+                    <td>{{ message.body|default:"N/A" }}</td>
+                    <td>
+                        {% if client and mailing and message %}
+    <a href="{% url 'mailer:update_combined' client.id mailing.id message.id %}" class="btn btn-primary">Редактировать</a>
+   <form method="post" action="{% url 'mailer:delete_combined' client.id mailing.id message.id %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+{% endif %}
+
+                    </td>
+                {% endwith %}
+            {% else %}
+                <td>N/A</td>
+                <td>N/A</td>
+                <td></td>
+            {% endif %}
+        </tr>
+        {% endwith %}
+    {% empty %}
+        <tr>
+            <td colspan="8" class="text-center">На данный момент нет рассылок.</td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

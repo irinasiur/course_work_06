@@ -1,0 +1,20 @@
+<h2>Clients</h2>
+<ul>
+{% for client in clients %}
+    <li>{{ client.name }}</li>
+{% endfor %}
+</ul>
+
+<h2>Messages</h2>
+<ul>
+{% for message in messages %}
+    <li>{{ message.subject }}</li>
+{% endfor %}
+</ul>
+
+<h2>Mailings</h2>
+<ul>
+{% for mailing in mailings %}
+    <li>{{ mailing.title }}</li>
+{% endfor %}
+</ul>

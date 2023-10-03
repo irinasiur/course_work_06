@@ -5,17 +5,32 @@
   <div class="row">
     <div class="col-6">
       <div class="card">
-         <h4>Добавить новую рассылку</h4>
+        <div class="card-header">
+          {% if client_form.instance.id %}
+            Редактирование рассылки
+          {% else %}
+            Создать новую рассылку
+          {% endif %}
+        </div>
         <div class="card-body">
           <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+
+            <h2>Добавить получателей вашего письма</h2>
+            {{ client_form.as_p }}
+
+            <h2>Добавить вашу рассылку</h2>
+            {{ mailing_form.as_p }}
+
+            <h2>Создать ваше письмо</h2>
+            {{ message_form.as_p }}
+
             <button type="submit" class="btn btn-success">
-              {% if object %}
-                Сохранить
-              {% else %}
-                Создать
-              {% endif %}
+                {% if client_form.instance.id %}
+                    Сохранить изменения
+                {% else %}
+                    Создать рассылку
+                {% endif %}
             </button>
           </form>
         </div>
