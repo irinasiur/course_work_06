@@ -22,12 +22,10 @@
                             <tr>
                                 <td>{{ mailinglog.id }}</td>
                                 <td>{{ mailinglog.attempt_time }}</td>
-                                <td>{{ mailinglog.status }}</td>
+                                <td>{{ mailinglog.get_status_display }}</td>
                                 <td>
 
                             </tr>
-
-
                         {% empty %}
                             <tr>
                                 <td colspan="4" class="text-center">На данный момент нет писем.</td>

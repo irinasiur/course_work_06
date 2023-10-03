@@ -254,7 +254,7 @@ class MessageDeleteView(DeleteView):
 class MailingLogListView(ListView):
     model = MailingLog
     template_name = 'mailer/mailinglog_list.html'
-    context_object_name = 'mailinglog'
+    context_object_name = 'mailinglogs'
 
     def get_queryset(self):
         if not self.request.user.is_anonymous:
