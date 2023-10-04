@@ -1,0 +1,22 @@
+{% extends "mailer/base.html" %}
+
+{% block content %}
+<body>
+    <div style="margin-left: 12.5%;">
+            <h1>Добро пожаловать в нашу систему рассылок</h1>
+
+        <p>Общее количество рассылок: {{ total_mailings }}</p>
+        <p>Активные рассылки: {{ active_mailings }}</p>
+        <p>Уникальные клиенты для рассылок: {{ unique_clients }}</p>
+
+        <h2>Случайные записи в блоге</h2>
+        <ul>
+            {% for post in random_posts %}
+                <li>{{ post.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+<!--</html>-->
+{% endblock %}

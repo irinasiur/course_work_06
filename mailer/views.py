@@ -3,13 +3,16 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from django.http import Http404
 from django.http import HttpResponseForbidden
+from django.db.models import Count
 
+from blog.models import Post
 from mailer.forms import ClientForm, MessageForm, MailingForm, MailingLogForm
 from mailer.models import Client, Mailing, Message, MailingLog
 
 from django.db import transaction
 
 import logging
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -23,11 +26,6 @@ class ClientListView(ListView):
         if not self.request.user.is_anonymous:
             return Client.objects.filter(user=self.request.user)
         return Client.objects.none()  # Вместо возврата всех объектов, возвращаем пустой запрос
-
-    # def get_queryset(self):
-    #     if not self.request.user.is_anonymous:
-    #         return Client.objects.filter(user=self.request.user)
-    #     return Client.objects.all()
 
 
 class ClientDetailView(DetailView):
@@ -425,3 +423,22 @@ class CombinedDeleteView(View):
 
         return redirect('mailer:list_mailing')
 
+
+class HomePageView(View):
+    template_name = 'mailer/home.html'
+
+    def get(self, request, *args, **kwargs):
+        total_mailings = Mailing.objects.count()
+        active_mailings = Mailing.objects.filter(status='RUNNING').count()
+        unique_clients = Client.objects.annotate(num_mailings=Count('mailing')).count()
+        random_posts = list(Post.objects.all())
+        random.shuffle(random_posts)
+        random_posts = random_posts[:3]
+
+        context = {
+            'total_mailings': total_mailings,
+            'active_mailings': active_mailings,
+            'unique_clients': unique_clients,
+            'random_posts': random_posts,
+        }
+        return render(request, self.template_name, context)

@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.decorators.cache import cache_page
+
+from mailer.views import HomePageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('mailer.urls', namespace='mailer')),
+    path('mailer/', include('mailer.urls', namespace='mailer')),
     path('user/', include('user.urls', namespace='user')),
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('', cache_page(60 * 15)(HomePageView.as_view()), name='home'),
 
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,32 @@
+{% extends 'mailer/base.html' %}
+
+{% load my_tags %}
+{% block content%}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{object.title|title}}<p>
+                          {{object.published_date}}<p>
+                        Просмотры {{object.views_count}}</p></h4>
+
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ object.content }}</h1>
+
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3" style="padding-left: 10px; text-align: left">
+                       {% if post.image %}
+                         <img class="card-img-top"
+                              src="{{ blog.image|mymedia }}"
+                              alt="Card image cap"
+                         style="max-width: 30%; height: auto;">
+                        {% endif %}
+                        <div class="card-body">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
